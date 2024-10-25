@@ -39,4 +39,6 @@ class UserRepository @Inject constructor(
     fun clearLogin() {
         preferenceManager.savedLogin = ""
     }
+
+
 }

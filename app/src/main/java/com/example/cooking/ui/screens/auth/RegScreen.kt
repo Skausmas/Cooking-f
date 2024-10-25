@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.cooking.common.hashMd5
 import com.example.cooking.data.models.RegInfo
 import com.example.cooking.ui.navigation.NavigationDestinations
 import com.example.cooking.ui.screens.auth.mvi.AuthEffect
@@ -137,7 +138,7 @@ fun RegScreen(
                             RegInfo(
                                 login = loginText.value,
                                 email = emailText.value,
-                                password = passText.value
+                                password = passText.value.hashMd5()
                             )
                         )
                     )

@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.cooking.common.hashMd5
 import com.example.cooking.data.models.LoginInfo
 import com.example.cooking.ui.navigation.NavigationDestinations
 import com.example.cooking.ui.screens.auth.mvi.AuthEffect
@@ -123,7 +124,7 @@ fun LoginScreen(
                         AuthEvent.LoginUser(
                             LoginInfo(
                                 login = loginText.value,
-                                password = passText.value
+                                password = passText.value.hashMd5()
                             )
                         )
 
