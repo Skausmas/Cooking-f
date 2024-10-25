@@ -1,4 +1,4 @@
-package com.example.cooking
+package com.example.cooking.ui.navigation
 
 enum class NavigationDestinations(val route:String) {
     Auth("auth"),

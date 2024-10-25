@@ -6,29 +6,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.cooking.network.CookingAPI
+import com.example.cooking.ui.navigation.NavigationDestinations
+import com.example.cooking.ui.screens.auth.LoginScreen
+import com.example.cooking.ui.screens.auth.RegScreen
+import com.example.cooking.ui.screens.receips.RecipesScreen
 import com.example.cooking.ui.theme.CookingTheme
-import com.example.cooking.view.AllRecipesModel
-import com.example.cooking.view.AllRecipesView
-import com.example.cooking.view.AuthView
-import com.example.cooking.view.RegView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +31,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CookingTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
-                    Greeting()
+                    Navigator()
                 }
             }
         }
@@ -48,19 +41,19 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalMaterial3Api
 @Composable
-fun Greeting() {
+fun Navigator() {
 
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = NavigationDestinations.Auth.route) {
         composable(NavigationDestinations.Auth.route) {
-            AuthView(navController)
+            LoginScreen(navController)
         }
         composable(NavigationDestinations.RegForm.route) {
-            RegView(navController)
+            RegScreen(navController)
         }
         composable(NavigationDestinations.AllRecipe.route) {
-            AllRecipesView(navController)
+            RecipesScreen(navController)
         }
     }
 }

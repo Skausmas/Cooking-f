@@ -1,4 +1,4 @@
-package com.example.cooking.datamodel
+package com.example.cooking.data.models
 
 data class Recipe(
     val name: String,
