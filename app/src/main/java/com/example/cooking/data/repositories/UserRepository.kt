@@ -17,6 +17,8 @@ class UserRepository @Inject constructor(
             val response = api.registerUser(regInfo)
             if (response.success) {
                 preferenceManager.savedLogin = regInfo.login
+                preferenceManager.userId = response.userId
+
             }
             response.success
         } catch (e: Exception) {
@@ -29,6 +31,7 @@ class UserRepository @Inject constructor(
             val response = api.loginUser(loginInfo)
             if (response.success) {
                 preferenceManager.savedLogin = loginInfo.login
+                preferenceManager.userId = response.userId
             }
             response.success
         } catch (e: Exception) {
@@ -36,8 +39,17 @@ class UserRepository @Inject constructor(
         }
     }
 
-    fun clearLogin() {
+    fun clearLoginData() {
         preferenceManager.savedLogin = ""
+        preferenceManager.userId = -1
+    }
+
+    fun isLogIn(): Boolean {
+        return preferenceManager.userId != -1
+    }
+
+    fun getCurrentUserId(): Int {
+        return preferenceManager.userId
     }
 
 

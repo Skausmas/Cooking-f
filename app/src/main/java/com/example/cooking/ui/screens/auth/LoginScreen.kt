@@ -35,17 +35,20 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.cooking.common.hashMd5
 import com.example.cooking.data.models.LoginInfo
-import com.example.cooking.ui.navigation.NavigationDestinations
+import com.example.cooking.ui.navigation.Routes
 import com.example.cooking.ui.screens.auth.mvi.AuthEffect
 import com.example.cooking.ui.screens.auth.mvi.AuthEvent
+import com.example.cooking.ui.theme.Styles
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController: NavController,
+    navigator: Navigator = LocalNavigator.currentOrThrow,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val state = viewModel.authState.collectAsState()
@@ -58,8 +61,9 @@ fun LoginScreen(
         viewModel.authEffect.collect { effect ->
             when (effect) {
                 AuthEffect.NavigateToRecipes -> {
-                    navController.navigate(
-                        NavigationDestinations.AllRecipe.route
+                    navigator.popUntilRoot()
+                    navigator.replace(
+                        Routes.RecipesScreenRoute
                     )
                 }
 
@@ -72,7 +76,7 @@ fun LoginScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = { Text("Вход") }
+                title = { Text("Вход", style = Styles.titleTextStyle) }
             )
         }
     ) { padding ->
@@ -158,9 +162,7 @@ fun LoginScreen(
                 text = "Нет аккаунта? Зарегистрироваться",
                 modifier = Modifier
                     .clickable {
-                        navController.navigate(
-                            NavigationDestinations.RegForm.route
-                        )
+                        navigator.push(Routes.RegScreenRoute)
                     }
                     .padding(8.dp)
             )

@@ -73,6 +73,9 @@ dependencies {
     implementation(libs.dagger.hilt.compose)
     ksp(libs.dagger.hilt.compiler)
 
+    implementation(libs.voyager.navigator)
+    
+
 
 
 

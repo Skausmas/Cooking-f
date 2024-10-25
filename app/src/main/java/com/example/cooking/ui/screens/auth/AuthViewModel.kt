@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class AuthViewModel @Inject constructor(
     val authState: StateFlow<AuthState> get() = _authState.asStateFlow()
 
     private val _authEffect = Channel<AuthEffect>()
-    val authEffect: Flow<AuthEffect> get() = _authEffect.receiveAsFlow()
+    val authEffect: Flow<AuthEffect> get() = _authEffect.consumeAsFlow()
 
     fun obtainEvent(event: AuthEvent) {
         when (event) {
