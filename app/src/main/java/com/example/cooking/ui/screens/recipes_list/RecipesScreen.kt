@@ -65,6 +65,10 @@ fun RecipesScreen(
         }
     }
 
+    LaunchedEffect("updateLoginData") {
+        viewModel.obtainEvent(RecipesEvent.UpdateLoginData)
+    }
+
     LaunchedEffect("load recipes") {
         viewModel.obtainEvent(RecipesEvent.LoadRecipes)
     }

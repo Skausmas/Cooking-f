@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipesViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
-    userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
 
@@ -55,6 +55,11 @@ class RecipesViewModel @Inject constructor(
                     }
                 }
             }
+
+            RecipesEvent.UpdateLoginData -> {
+                _recipesState.update { it.copy(isLogIn = userRepository.isLogIn()) }
+            }
+
         }
 
     }
