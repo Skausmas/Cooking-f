@@ -38,7 +38,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.example.cooking.common.hashMd5
 import com.example.cooking.data.models.LoginInfo
 import com.example.cooking.ui.navigation.Routes
 import com.example.cooking.ui.screens.auth.mvi.AuthEffect
@@ -128,7 +127,7 @@ fun LoginScreen(
                         AuthEvent.LoginUser(
                             LoginInfo(
                                 login = loginText.value,
-                                password = passText.value.hashMd5()
+                                password = passText.value
                             )
                         )
 

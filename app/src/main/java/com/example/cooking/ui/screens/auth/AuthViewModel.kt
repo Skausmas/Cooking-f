@@ -3,6 +3,7 @@ package com.example.cooking.ui.screens.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cooking.data.models.LoginInfo
 import com.example.cooking.data.models.RegInfo
 import com.example.cooking.data.repositories.UserRepository
 import com.example.cooking.ui.screens.auth.mvi.AuthEffect
@@ -35,7 +36,7 @@ class AuthViewModel @Inject constructor(
             is AuthEvent.RegisterUser -> {
                 _authState.update { it.copy(isLoading = true) }
                 viewModelScope.launch {
-                    if (!validateInput(event.regInfo)) {
+                    if (!validateRegInput(event.regInfo)) {
                         _authState.update { it.copy(isLoading = false) }
                     } else try {
                         val success = userRepository.registerUser(
@@ -61,7 +62,9 @@ class AuthViewModel @Inject constructor(
             is AuthEvent.LoginUser -> {
                 _authState.update { it.copy(isLoading = true) }
                 viewModelScope.launch {
-                    try {
+                    if (!validateLoginInput(event.loginInfo)) {
+                        _authState.update { it.copy(isLoading = false) }
+                    } else try {
                         val success = userRepository.loginUser(
                             event.loginInfo
                         )
@@ -84,7 +87,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private suspend fun validateInput(regInfo: RegInfo): Boolean {
+    private suspend fun validateRegInput(regInfo: RegInfo): Boolean {
         return when {
             regInfo.login.isEmpty() -> {
                 _authEffect.send(AuthEffect.ShowToast("Логин не может быть пустым"))
@@ -97,6 +100,25 @@ class AuthViewModel @Inject constructor(
             }
 
             regInfo.password.isEmpty() -> {
+                _authEffect.send(AuthEffect.ShowToast("Пароль не может быть пустым"))
+                false
+            }
+
+            else -> {
+                true
+            }
+        }
+    }
+
+    private suspend fun validateLoginInput(loginInfo: LoginInfo): Boolean {
+        return when {
+            loginInfo.login.isEmpty() -> {
+                _authEffect.send(AuthEffect.ShowToast("Логин не может быть пустым"))
+                false
+            }
+
+
+            loginInfo.password.isEmpty() -> {
                 _authEffect.send(AuthEffect.ShowToast("Пароль не может быть пустым"))
                 false
             }

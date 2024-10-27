@@ -1,5 +1,6 @@
 package com.example.cooking.data.repositories
 
+import com.example.cooking.common.hashMd5
 import com.example.cooking.data.local.PreferenceManager
 import com.example.cooking.data.models.LoginInfo
 import com.example.cooking.data.models.RegInfo
@@ -14,7 +15,7 @@ class UserRepository @Inject constructor(
 
     suspend fun registerUser(regInfo: RegInfo): Boolean {
         return try {
-            val response = api.registerUser(regInfo)
+            val response = api.registerUser(regInfo.copy(password = regInfo.password.hashMd5()))
             if (response.success) {
                 preferenceManager.savedLogin = regInfo.login
                 preferenceManager.userId = response.userId
@@ -28,7 +29,7 @@ class UserRepository @Inject constructor(
 
     suspend fun loginUser(loginInfo: LoginInfo): Boolean {
         return try {
-            val response = api.loginUser(loginInfo)
+            val response = api.loginUser(loginInfo.copy(password = loginInfo.password.hashMd5()))
             if (response.success) {
                 preferenceManager.savedLogin = loginInfo.login
                 preferenceManager.userId = response.userId
